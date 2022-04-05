@@ -1,6 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="dimen_100">100</dimen>
-    <dimen name="dimen_50">50</dimen>
-    <dimen name="dimen_16">16</dimen>
+    <dimen name="text_size_normal">18sp</dimen>
+    <dimen name="dimen_16">16dp</dimen>
+    <dimen name="dimen_22">22dp</dimen>
+    <dimen name="text_size_small">16sp</dimen>
+    <dimen name="text_size_smallest">14sp</dimen>
+    <dimen name="text_size_time">12sp</dimen>
+    <dimen name="dimen_6">6dp</dimen>
+    <dimen name="dimen_12">12dp</dimen>
+    <dimen name="dimen_1">1dp</dimen>
+
+    <dimen name="material_text_size_small">14sp</dimen>
+    <dimen name="material_text_size_medium">16sp</dimen>
+    <dimen name="material_text_size_large">20sp</dimen>
+
+
+    <!-- Bottom navigation view sizes -->
+    <!--    <dimen name="design_bottom_navigation_height" tools:override="true">35dp</dimen>-->
+    <!--    <dimen name="design_bottom_navigation_text_size" tools:override="true">18sp</dimen>-->
+    <!--    <dimen name="design_bottom_navigation_active_text_size" tools:override="true">18sp</dimen>-->
+    <dimen name="dimen_8">8dp</dimen>
+    <dimen name="dimen_60">60dp</dimen>
+    <dimen name="dimen_18">18dp</dimen>
+    <dimen name="stacked_bar_height">42dp</dimen>
+    <dimen name="dimen_7">7dp</dimen>
+    <dimen name="dimen_3">3dp</dimen>
+    <dimen name="log_food_field_height">35dp</dimen>
+    <dimen name="dimen_5">5dp</dimen>
+    <dimen name="large_heading_size">20sp</dimen>
+    <dimen name="dimen_2">2dp</dimen>
+    <dimen name="dimen_40">40dp</dimen>
+    <dimen name="dimen_50">50dp</dimen>
+    <dimen name="dimen_drop_down">200dp</dimen>
+    <dimen name="btn_width">150dp</dimen>
+    <dimen name="dimen_100">100dp</dimen>
+    <dimen name="large_text_size">30sp</dimen>
+    <dimen name="dimen_24">24dp</dimen>
+    <dimen name="dimen_30">30dp</dimen>
+    <dimen name="dimen_20">20dp</dimen>
+    <dimen name="dimen_70">70dp</dimen>
+    <dimen name="dimen_150">150dp</dimen>
+    <dimen name="dimen_9">9dp</dimen>
+    <dimen name="card_radius">4dp</dimen>
+    <dimen name="dimen_65">84dp</dimen>
+    <dimen name="onboarding_text_height">250dp</dimen>
+    <dimen name="dimen_200">200dp</dimen>
+    <dimen name="dimen_15">15dp</dimen>
+    <dimen name="dimen_25">25dp</dimen>
+    <dimen name="dimen_53">53dp</dimen>
+    <dimen name="dimen_120">120dp</dimen>
+    <dimen name="dimen_130">130dp</dimen>
+    <dimen name="dimen_36">36dp</dimen>
+    <dimen name="dimen_80">80dp</dimen>
+
 </resources>
