@@ -33,7 +33,7 @@ object UnsplashApi {
     /**
      * The food api variable to access all edamam remote api methods.
      */
-    val UnsplashApi by lazy {
+    val UnsplashApi: UnsplashService by lazy {
         unsplashRetrofit.create(UnsplashService::class.java)
     }
 }

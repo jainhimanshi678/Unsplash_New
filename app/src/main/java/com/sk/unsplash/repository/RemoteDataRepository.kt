@@ -6,10 +6,10 @@ import retrofit2.Response
 
 object RemoteDataRepository:IRemoteDataRepository {
 
-    val client_id="z3TxIQufXZltDjINoUn8EsBupe8h-I_mCIhxYTESgwU"
+    private const val client_id="z3TxIQufXZltDjINoUn8EsBupe8h-I_mCIhxYTESgwU"
 
     override suspend fun getphoto(): Response<PhotoResponse> {
-        return UnsplashApi.UnsplashApi.getPhotos(client_id)
+        return UnsplashApi.UnsplashApi.getPhotos(client_id,200)
     }
 
 }
