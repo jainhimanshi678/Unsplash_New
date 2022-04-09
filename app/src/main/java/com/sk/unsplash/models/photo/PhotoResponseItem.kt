@@ -1,5 +1,7 @@
 package com.sk.unsplash.models.photo
 
+import java.io.Serializable
+
 data class PhotoResponseItem(
     val blur_hash: String,
     val color: String,
@@ -15,4 +17,4 @@ data class PhotoResponseItem(
     val urls: Urls,
     val user: User,
     val width: Int
-)
+):Serializable

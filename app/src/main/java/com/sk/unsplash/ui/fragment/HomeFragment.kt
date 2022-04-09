@@ -39,7 +39,16 @@ class HomeFragment : BaseFragment() {
         setToolBar()
         setRecyclerView()
         setPhotoResponse()
+        setOnClickListener()
+    }
 
+    /**
+     * Set on click listener
+     */
+    private fun setOnClickListener() {
+        photoAdapter.longPressListener {
+            mMainActivityListener.setPhotoLongPressListener(it)
+        }
     }
 
     private fun setToolBar() {

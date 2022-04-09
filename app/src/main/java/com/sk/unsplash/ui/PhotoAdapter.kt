@@ -21,6 +21,11 @@ class PhotoAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
      */
     lateinit var context: Context
 
+    /**
+     * Set on long press listener
+     */
+    var photoLongPressListener: ((PhotoResponseItem) -> Unit)? = null
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         context = parent.context
         return PhotoItemHolder(
@@ -45,7 +50,9 @@ class PhotoAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             Glide.with(context).load(photo.urls.regular).into(binding.ivPhoto)
 
             binding.ivPhoto.setOnLongClickListener {
-                Toast.makeText(context, photo.user.id, Toast.LENGTH_LONG).show()
+                photoLongPressListener?.let { onClick ->
+                    onClick(photo)
+                }
                 true
             }
         }
@@ -57,5 +64,12 @@ class PhotoAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     fun submitHints(recentPhotos: List<PhotoResponseItem>) {
         this.recentPhotos = recentPhotos
         notifyDataSetChanged()
+    }
+
+    /**
+     * Set the photo long press listener
+     */
+    fun longPressListener(listener: (PhotoResponseItem) -> Unit) {
+        photoLongPressListener=listener
     }
 }

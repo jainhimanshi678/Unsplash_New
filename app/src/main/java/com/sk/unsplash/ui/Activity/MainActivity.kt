@@ -4,13 +4,15 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.WindowManager
+import android.widget.Toast
 import com.sk.unsplash.R
 import com.sk.unsplash.databinding.ActivityMainBinding
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.sk.unsplash.ui.fragment.HomeFragment
 import com.sk.unsplash.interfaces.IMainActivity
-
+import com.sk.unsplash.models.photo.PhotoResponseItem
+import com.sk.unsplash.ui.fragment.PhotoDialogFragment
 
 class MainActivity : AppCompatActivity(),IMainActivity {
 
@@ -96,5 +98,11 @@ class MainActivity : AppCompatActivity(),IMainActivity {
             replace(binding.flMain.id,fragment)
             commit()
         }
+
+    override fun setPhotoLongPressListener(photo: PhotoResponseItem){
+        val photoDialogFragment = PhotoDialogFragment().newInstance(photo)
+        photoDialogFragment.show(supportFragmentManager, "filter")
+        //switchFragment(PhotoDialogFragment().newInstance(photo))
+    }
 
 }

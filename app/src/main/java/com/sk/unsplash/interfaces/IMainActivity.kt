@@ -1,5 +1,10 @@
 package com.sk.unsplash.interfaces
 
-interface IMainActivity {
+import com.sk.unsplash.models.photo.PhotoResponseItem
 
+interface IMainActivity {
+    /***
+     * Set long press listener for homefragment
+     */
+    fun setPhotoLongPressListener(photo:PhotoResponseItem)
 }
