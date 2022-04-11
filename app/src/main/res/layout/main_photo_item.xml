@@ -5,11 +5,28 @@
     android:layout_height="wrap_content"
     android:layout_margin="4dp">
 
-    <com.makeramen.roundedimageview.RoundedImageView
-        android:id="@+id/iv_Photo"
+    <androidx.cardview.widget.CardView
         android:layout_width="@dimen/dimen_200"
         android:layout_height="@dimen/dimen_200"
-        android:scaleType="fitXY"
-        app:riv_corner_radius="@dimen/dimen_25" />
+        app:cardCornerRadius="@dimen/dimen_18">
+
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/iv_Photo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY" />
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="@dimen/dimen_12"
+            android:layout_marginLeft="@dimen/dimen_12"
+            android:layout_marginRight="@dimen/dimen_12"
+            android:fontFamily="@font/archivo_black"
+            android:textColor="@color/white" />
+
+    </androidx.cardview.widget.CardView>
 
 </RelativeLayout>

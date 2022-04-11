@@ -2,6 +2,7 @@ package com.sk.unsplash.repository
 
 import com.sk.unsplash.api.UnsplashApi
 import com.sk.unsplash.models.photo.PhotoResponse
+import com.sk.unsplash.models.searchPhoto.SearchPhotoResponse
 import retrofit2.Response
 
 object RemoteDataRepository:IRemoteDataRepository {
@@ -10,6 +11,10 @@ object RemoteDataRepository:IRemoteDataRepository {
 
     override suspend fun getphoto(): Response<PhotoResponse> {
         return UnsplashApi.UnsplashApi.getPhotos(client_id,200)
+    }
+
+    override suspend fun getSearchPhotoResponse(query:String): Response<SearchPhotoResponse> {
+        return UnsplashApi.UnsplashApi.getSerachPhoto(client_id,20,query)
     }
 
 }

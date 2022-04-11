@@ -1,9 +1,8 @@
-package com.sk.unsplash.ui
+package com.sk.unsplash.ui.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.sk.unsplash.databinding.MainPhotoItemBinding
@@ -48,7 +47,7 @@ class PhotoAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         RecyclerView.ViewHolder(binding.root) {
         fun bindData(photo: PhotoResponseItem) {
             Glide.with(context).load(photo.urls.regular).into(binding.ivPhoto)
-
+            binding.tvName.setText(photo.description)
             binding.ivPhoto.setOnLongClickListener {
                 photoLongPressListener?.let { onClick ->
                     onClick(photo)

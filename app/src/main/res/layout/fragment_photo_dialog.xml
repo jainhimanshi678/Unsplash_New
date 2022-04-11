@@ -1,16 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="400dp"
-    android:layout_height="400dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
+    app:cardCornerRadius="@dimen/dimen_18"
     tools:context=".ui.fragment.PhotoDialogFragment">
 
-    <ImageView
-        android:id="@+id/iv_Large"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:scaleType="fitXY"
-        android:src="@drawable/unsplashbackground"/>
+        android:layout_marginTop="@dimen/dimen_8">
 
-</LinearLayout>
+        <RelativeLayout
+            android:id="@+id/rv_Top"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/dimen_12">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/iv_profile"
+                android:layout_width="@dimen/dimen_25"
+                android:layout_height="@dimen/dimen_25"
+                android:src="@drawable/ic_baseline_person_24" />
+
+            <TextView
+                android:id="@+id/tv_profile"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/dimen_20"
+                android:layout_marginLeft="@dimen/dimen_8"
+                android:layout_toRightOf="@+id/iv_profile"
+                android:fontFamily="@font/archivo_black"
+                android:textColor="@color/black"
+                android:textSize="@dimen/dimen_18" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_below="@+id/rv_Top">
+
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:id="@+id/iv_Large"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scaleType="fitXY" />
+
+            <TextView
+                android:id="@+id/tv_likes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginLeft="@dimen/dimen_12"
+                android:layout_marginTop="@dimen/dimen_20"
+                android:layout_marginRight="@dimen/dimen_12"
+                android:fontFamily="@font/archivo_black"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/tv_user_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginTop="@dimen/dimen_6"
+                android:layout_marginLeft="@dimen/dimen_12"
+                android:layout_marginRight="@dimen/dimen_12"
+                android:layout_marginBottom="@dimen/dimen_12"
+                android:fontFamily="@font/archivo_black"
+                android:textColor="@color/black" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</ScrollView>

@@ -1,14 +1,11 @@
 package com.sk.unsplash.ui.fragment
 
+import android.annotation.SuppressLint
 import android.app.ActionBar
 import android.os.Bundle
-import android.provider.ContactsContract
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import com.bumptech.glide.Glide
 import com.sk.unsplash.R
@@ -17,7 +14,7 @@ import com.sk.unsplash.databinding.FragmentPhotoDialogBinding
 import com.sk.unsplash.models.photo.PhotoResponseItem
 
 class PhotoDialogFragment : DialogFragment() {
-    fun newInstance(photo:PhotoResponseItem): PhotoDialogFragment {
+    fun newInstance(photo: PhotoResponseItem): PhotoDialogFragment {
         val filterDialogFragment = PhotoDialogFragment()
         val bundle = Bundle()
         bundle.putSerializable(StringConstants.PHOTO, photo)
@@ -40,7 +37,7 @@ class PhotoDialogFragment : DialogFragment() {
         dialog?.window?.setLayout(
             ActionBar.LayoutParams.MATCH_PARENT,
             ActionBar.LayoutParams.WRAP_CONTENT
-        );
+        )
     }
 
     override fun onCreateView(
@@ -56,15 +53,19 @@ class PhotoDialogFragment : DialogFragment() {
         binding = FragmentPhotoDialogBinding.bind(view)
         photo = arguments?.getSerializable(StringConstants.PHOTO) as PhotoResponseItem?
         dialog?.setCancelable(true)
-        Log.d("imgitem", "onViewCreated: $photo")
-        setupView(view)
+        setupView()
     }
 
     /**
      * Sets the views.
      */
-    private fun setupView(view: View) {
-            Glide.with(requireContext()).load(photo?.urls?.regular?:resources.getColor(R.color.teal_200)).into(binding.ivLarge)
+    @SuppressLint("SetTextI18n")
+    private fun setupView() {
+        Glide.with(requireContext()).load(photo?.urls?.regular).into(binding.ivLarge)
+        binding.tvLikes.text = photo?.likes.toString() + resources.getString(R.string.likes)
+        Glide.with(requireContext()).load(photo?.user?.profile_image?.small).into(binding.ivProfile)
+        binding.tvUserName.text = photo?.user?.bio
+        binding.tvProfile.text=photo?.user?.name
     }
 
 

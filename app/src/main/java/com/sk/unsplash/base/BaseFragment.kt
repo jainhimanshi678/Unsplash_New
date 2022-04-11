@@ -3,7 +3,7 @@ package com.sk.unsplash.base
 import android.content.Context
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.sk.unsplash.ui.Activity.MainActivity
+import com.sk.unsplash.ui.activity.MainActivity
 import com.sk.unsplash.interfaces.IMainActivity
 import com.sk.unsplash.viewModel.UnsplashViewModel
 

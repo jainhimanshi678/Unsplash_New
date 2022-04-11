@@ -4,11 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SearchView
 import com.sk.unsplash.R
 import com.sk.unsplash.base.BaseFragment
 import com.sk.unsplash.databinding.FragmentHomeBinding
 import androidx.recyclerview.widget.GridLayoutManager
-import com.sk.unsplash.ui.PhotoAdapter
+import com.sk.unsplash.ui.adapter.PhotoAdapter
 
 
 class HomeFragment : BaseFragment() {
@@ -40,6 +41,7 @@ class HomeFragment : BaseFragment() {
         setRecyclerView()
         setPhotoResponse()
         setOnClickListener()
+        setSearchView()
     }
 
     /**
@@ -62,6 +64,7 @@ class HomeFragment : BaseFragment() {
         unsplashViewModel.getPhotoResponse {
             if (it != null) {
                 photoAdapter.submitHints(it)
+                binding.pbProgress.visibility = View.GONE
             }
         }
     }
@@ -75,6 +78,43 @@ class HomeFragment : BaseFragment() {
             setHasFixedSize(true)
             layoutManager = GridLayoutManager(requireContext(), 2)
             adapter = photoAdapter
+        }
+    }
+
+    /**
+     *Get search item
+     */
+    private fun setSearchView() {
+        binding.svPhoto.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextChange(p0: String?): Boolean {
+                if (p0 != null && p0 != "") {
+                    getSearchPhoto(p0)
+                } else {
+                    setPhotoResponse()
+                }
+                return false
+            }
+
+            override fun onQueryTextSubmit(p0: String?): Boolean {
+                if (p0 != null && p0 != "") {
+                    getSearchPhoto(p0)
+                } else {
+                    setPhotoResponse()
+                }
+                return false
+            }
+        })
+    }
+
+    /**
+     * Get search item response
+     */
+    private fun getSearchPhoto(query: String) {
+        unsplashViewModel.getSearchResponseForPhoto(query) {
+            if (it != null) {
+                photoAdapter.submitHints(it.results)
+                binding.pbProgress.visibility = View.GONE
+            }
         }
     }
 }

@@ -27,9 +27,9 @@
 
             <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="150dp"
+                android:background="@color/teal_700"
                 android:scaleType="centerCrop"
-                android:src="@drawable/unsplashbackground"
                 app:layout_collapseMode="parallax" />
 
             <androidx.appcompat.widget.Toolbar
@@ -40,21 +40,22 @@
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
-        <EditText
-            android:id="@+id/search_bar"
+        <SearchView
+            android:id="@+id/sv_Photo"
             android:layout_width="match_parent"
-            android:layout_height="46dp"
-            android:layout_marginStart="18dp"
-            android:layout_marginTop="14dp"
-            android:layout_marginEnd="18dp"
-            android:layout_marginBottom="14dp"
-            android:background="@color/white"
-            android:drawableLeft="@drawable/search_icon"
-            android:drawablePadding="12dp"
-            android:textColor="@color/black"
-            android:hint="Search for anything"
-            android:paddingStart="13dp"
-            android:textColorHint="@color/black" />
+            android:layout_height="@dimen/dimen_40"
+            android:layout_marginStart="@dimen/dimen_12"
+            android:layout_marginTop="@dimen/dimen_8"
+            android:layout_marginEnd="@dimen/dimen_12"
+            android:layout_marginBottom="@dimen/dimen_5"
+            android:background="@drawable/search_backgroud"
+            android:closeIcon="@drawable/ic_baseline_close_24"
+            android:iconifiedByDefault="false"
+            android:queryHint="@string/search_string"
+            android:searchHintIcon="@drawable/search_icon"
+            android:searchIcon="@drawable/search_icon"
+            android:theme="@style/ThemeOverlay.SearchView" />
+
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.core.widget.NestedScrollView
@@ -68,13 +69,19 @@
             the content to be scrolled -->
         <RelativeLayout
             android:layout_width="match_parent"
-            android:padding="@dimen/dimen_8"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:padding="@dimen/dimen_8">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_photo"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
+
+            <ProgressBar
+                android:id="@+id/pb_Progress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true" />
         </RelativeLayout>
 
     </androidx.core.widget.NestedScrollView>
