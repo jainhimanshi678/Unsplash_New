@@ -2,16 +2,28 @@ package com.sk.unsplash.ui.fragment
 
 import android.annotation.SuppressLint
 import android.app.ActionBar
+import android.content.Intent
+import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.SimpleTarget
+import com.bumptech.glide.request.transition.Transition
 import com.sk.unsplash.R
 import com.sk.unsplash.constants.StringConstants
 import com.sk.unsplash.databinding.FragmentPhotoDialogBinding
 import com.sk.unsplash.models.photo.PhotoResponseItem
+import java.io.File
+import java.io.FileOutputStream
+import java.io.OutputStream
+import java.util.*
+
 
 class PhotoDialogFragment : DialogFragment() {
     fun newInstance(photo: PhotoResponseItem): PhotoDialogFragment {
@@ -54,6 +66,7 @@ class PhotoDialogFragment : DialogFragment() {
         photo = arguments?.getSerializable(StringConstants.PHOTO) as PhotoResponseItem?
         dialog?.setCancelable(true)
         setupView()
+        setOnClickListener()
     }
 
     /**
@@ -65,8 +78,60 @@ class PhotoDialogFragment : DialogFragment() {
         binding.tvLikes.text = photo?.likes.toString() + resources.getString(R.string.likes)
         Glide.with(requireContext()).load(photo?.user?.profile_image?.small).into(binding.ivProfile)
         binding.tvUserName.text = photo?.user?.bio
-        binding.tvProfile.text=photo?.user?.name
+        binding.tvProfile.text = photo?.user?.name
     }
 
+    private fun setOnClickListener() {
+        binding.ivDownload.setOnClickListener {
+            Glide.with(requireContext())
+                .asBitmap()
+                .load("YOUR_URL")
+                .into(object : SimpleTarget<Bitmap?>(100, 100) {
+                    override fun onResourceReady(
+                        resource: Bitmap,
+                        transition: Transition<in Bitmap?>?
+                    ) {
+                        saveImage(resource)
+                    }
+                })
+        }
 
+    }
+
+    private fun saveImage(image: Bitmap): String? {
+        var savedImagePath: String? = null
+        val imageFileName = "JPEG_" + "FILE_NAME" + ".jpg"
+        val storageDir = File(
+            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
+                .toString() + "/YOUR_FOLDER_NAME"
+        )
+        var success = true
+        if (!storageDir.exists()) {
+            success = storageDir.mkdirs()
+        }
+        if (success) {
+            val imageFile = File(storageDir, imageFileName)
+            savedImagePath = imageFile.getAbsolutePath()
+            try {
+                val fOut: OutputStream = FileOutputStream(imageFile)
+                image.compress(Bitmap.CompressFormat.JPEG, 100, fOut)
+                fOut.close()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+
+            // Add the image to the system gallery
+           // galleryAddPic(savedImagePath)
+            Toast.makeText(context, "IMAGE SAVED", Toast.LENGTH_LONG).show()
+        }
+        return savedImagePath
+    }
+
+    private fun galleryAddPic(imagePath: String) {
+        val mediaScanIntent = Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE)
+        val f = File(imagePath)
+        val contentUri: Uri = Uri.fromFile(f)
+        mediaScanIntent.data = contentUri
+       // sendBroadcast(mediaScanIntent)
+    }
 }

@@ -20,15 +20,15 @@
             android:layout_height="wrap_content"
             app:collapsedTitleTextColor="@color/black"
             app:contentScrim="@color/white"
-            app:expandedTitleTextColor="@color/white"
+            app:expandedTitleTextColor="@color/black"
             app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"
             app:subtitle="@string/toolbar_subtitle"
             app:title="@string/app_name">
 
             <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:background="@color/teal_700"
+                android:layout_height="100dp"
+                android:background="@color/white"
                 android:scaleType="centerCrop"
                 app:layout_collapseMode="parallax" />
 
