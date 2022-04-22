@@ -9,7 +9,7 @@ object RemoteDataRepository:IRemoteDataRepository {
 
     private const val client_id="z3TxIQufXZltDjINoUn8EsBupe8h-I_mCIhxYTESgwU"
 
-    override suspend fun getphoto(): Response<PhotoResponse> {
+    override suspend fun getPhoto(): Response<PhotoResponse> {
         return UnsplashApi.UnsplashApi.getPhotos(client_id,200)
     }
 

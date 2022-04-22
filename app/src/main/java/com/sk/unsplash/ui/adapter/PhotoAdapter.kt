@@ -1,5 +1,6 @@
 package com.sk.unsplash.ui.adapter
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -47,7 +48,7 @@ class PhotoAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         RecyclerView.ViewHolder(binding.root) {
         fun bindData(photo: PhotoResponseItem) {
             Glide.with(context).load(photo.urls.regular).into(binding.ivPhoto)
-            binding.tvName.setText(photo.description)
+            binding.tvName.text = photo.description
             binding.ivPhoto.setOnLongClickListener {
                 photoLongPressListener?.let { onClick ->
                     onClick(photo)
@@ -60,6 +61,7 @@ class PhotoAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     /**
      * Submit photos.
      */
+    @SuppressLint("NotifyDataSetChanged")
     fun submitHints(recentPhotos: List<PhotoResponseItem>) {
         this.recentPhotos = recentPhotos
         notifyDataSetChanged()

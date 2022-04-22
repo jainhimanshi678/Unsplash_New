@@ -131,7 +131,7 @@ class PhotoDialogFragment : DialogFragment() {
     }
 
     /**
-     *
+     *Send photo url.
      */
     private fun sendLink() {
         mActivityListener.sendLink(photo?.urls?.regular.toString())

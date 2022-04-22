@@ -12,13 +12,13 @@ import kotlinx.coroutines.launch
 
 class UnsplashViewModel : ViewModel() {
 
-    val remoteRepository = RemoteDataRepository
+    private val remoteRepository = RemoteDataRepository
 
-    val localRepository = LocalDataRepository
+    private val localRepository = LocalDataRepository
 
     fun getPhotoResponse(listener: (PhotoResponse?) -> Unit) = viewModelScope.launch {
         try {
-            val response = remoteRepository.getphoto()
+            val response = remoteRepository.getPhoto()
             if (response.isSuccessful) {
                 response.body()?.let {
                     listener(it)
@@ -59,7 +59,7 @@ class UnsplashViewModel : ViewModel() {
         listener: (Boolean) -> Unit
     ) = viewModelScope.launch {
         try {
-            val response = localRepository.savePhoto(image, photoResponseItem, listener)
+            localRepository.savePhoto(image, photoResponseItem, listener)
         } catch (e: Exception) {
 
         }
