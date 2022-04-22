@@ -1,5 +1,7 @@
 package com.sk.unsplash.models.random
 
+import java.io.Serializable
+
 data class RandomPhotoResponseItem(
     val blur_hash: String,
     val color: String,
@@ -18,4 +20,4 @@ data class RandomPhotoResponseItem(
     val urls: Urls,
     val user: User,
     val width: Int
-)
+) : Serializable

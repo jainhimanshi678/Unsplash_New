@@ -10,4 +10,5 @@
     <string name="toolbar_subtitle">Beautiful, free photos.</string>
     <string name="likes">\tlikes</string>
     <string name="search_string">Search for anything</string>
+    <string name="downloading">Downloading...</string>
 </resources>

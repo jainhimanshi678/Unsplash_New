@@ -1,16 +1,20 @@
 package com.sk.unsplash.viewModel
 
+import android.graphics.Bitmap
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sk.unsplash.models.photo.PhotoResponse
 import com.sk.unsplash.models.photo.PhotoResponseItem
 import com.sk.unsplash.models.searchPhoto.SearchPhotoResponse
+import com.sk.unsplash.repository.LocalDataRepository
 import com.sk.unsplash.repository.RemoteDataRepository
 import kotlinx.coroutines.launch
 
 class UnsplashViewModel : ViewModel() {
 
     val remoteRepository = RemoteDataRepository
+
+    val localRepository = LocalDataRepository
 
     fun getPhotoResponse(listener: (PhotoResponse?) -> Unit) = viewModelScope.launch {
         try {
@@ -45,5 +49,20 @@ class UnsplashViewModel : ViewModel() {
                 listener(null)
             }
         }
+
+    /**
+     *
+     */
+    fun saveImage(
+        image: Bitmap,
+        photoResponseItem: PhotoResponseItem?,
+        listener: (Boolean) -> Unit
+    ) = viewModelScope.launch {
+        try {
+            val response = localRepository.savePhoto(image, photoResponseItem, listener)
+        } catch (e: Exception) {
+
+        }
+    }
 
 }

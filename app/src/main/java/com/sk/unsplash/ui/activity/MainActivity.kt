@@ -1,5 +1,6 @@
 package com.sk.unsplash.ui.activity
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.WindowManager
@@ -97,6 +98,16 @@ class MainActivity : AppCompatActivity(), IMainActivity {
         val photoDialogFragment = PhotoDialogFragment().newInstance(photo)
         photoDialogFragment.show(supportFragmentManager, "filter")
         //switchFragment(PhotoDialogFragment().newInstance(photo))
+    }
+
+    override fun sendLink(photo: String) {
+        val sendIntent: Intent = Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_TEXT, photo)
+            type = "text/plain"
+        }
+        val shareIntent = Intent.createChooser(sendIntent, null)
+        startActivity(shareIntent)
     }
 
 }

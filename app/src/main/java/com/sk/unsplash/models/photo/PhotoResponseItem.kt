@@ -17,4 +17,4 @@ data class PhotoResponseItem(
     val urls: Urls,
     val user: User,
     val width: Int
-):Serializable
+) : Serializable

@@ -2,27 +2,26 @@ package com.sk.unsplash.ui.fragment
 
 import android.annotation.SuppressLint
 import android.app.ActionBar
+import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
-import android.net.Uri
 import android.os.Bundle
-import android.os.Environment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
 import com.sk.unsplash.R
 import com.sk.unsplash.constants.StringConstants
 import com.sk.unsplash.databinding.FragmentPhotoDialogBinding
+import com.sk.unsplash.interfaces.IMainActivity
 import com.sk.unsplash.models.photo.PhotoResponseItem
-import java.io.File
-import java.io.FileOutputStream
-import java.io.OutputStream
-import java.util.*
+import com.sk.unsplash.ui.activity.MainActivity
+import com.sk.unsplash.viewModel.UnsplashViewModel
 
 
 class PhotoDialogFragment : DialogFragment() {
@@ -43,6 +42,21 @@ class PhotoDialogFragment : DialogFragment() {
      * Holds Photo.
      */
     private var photo: PhotoResponseItem? = null
+
+    /**
+     *Holds unsplash view model object.
+     */
+    val unsplashViewModel: UnsplashViewModel by viewModels()
+
+    /**
+     * Holds MainActivity object.
+     */
+    lateinit var mActivityListener: IMainActivity
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        mActivityListener = context as MainActivity
+    }
 
     override fun onStart() {
         super.onStart()
@@ -83,55 +97,47 @@ class PhotoDialogFragment : DialogFragment() {
 
     private fun setOnClickListener() {
         binding.ivDownload.setOnClickListener {
-            Glide.with(requireContext())
-                .asBitmap()
-                .load("YOUR_URL")
-                .into(object : SimpleTarget<Bitmap?>(100, 100) {
-                    override fun onResourceReady(
-                        resource: Bitmap,
-                        transition: Transition<in Bitmap?>?
-                    ) {
-                        saveImage(resource)
+            saveImage()
+        }
+        binding.ivSend.setOnClickListener {
+            sendLink()
+        }
+    }
+
+    private fun saveImage() {
+        binding.pbDownload.visibility = View.VISIBLE
+        binding.tvDownloading.visibility = View.VISIBLE
+        binding.rvTop.visibility = View.GONE
+        binding.llDetail.visibility = View.GONE
+        Glide.with(requireContext())
+            .asBitmap()
+            .load(photo?.urls?.full ?: photo?.urls?.thumb)
+            .into(object : SimpleTarget<Bitmap?>() {
+                override fun onResourceReady(
+                    resource: Bitmap,
+                    transition: Transition<in Bitmap?>?
+                ) {
+                    unsplashViewModel.saveImage(resource, photo) {
+                        if (it) {
+                            binding.pbDownload.visibility = View.GONE
+                            binding.tvDownloading.visibility = View.GONE
+                            binding.rvTop.visibility = View.VISIBLE
+                            binding.llDetail.visibility = View.VISIBLE
+                            Toast.makeText(context, "Image Saved!!", Toast.LENGTH_LONG).show()
+                        }
                     }
-                })
-        }
-
+                }
+            })
     }
 
-    private fun saveImage(image: Bitmap): String? {
-        var savedImagePath: String? = null
-        val imageFileName = "JPEG_" + "FILE_NAME" + ".jpg"
-        val storageDir = File(
-            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
-                .toString() + "/YOUR_FOLDER_NAME"
-        )
-        var success = true
-        if (!storageDir.exists()) {
-            success = storageDir.mkdirs()
-        }
-        if (success) {
-            val imageFile = File(storageDir, imageFileName)
-            savedImagePath = imageFile.getAbsolutePath()
-            try {
-                val fOut: OutputStream = FileOutputStream(imageFile)
-                image.compress(Bitmap.CompressFormat.JPEG, 100, fOut)
-                fOut.close()
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-
-            // Add the image to the system gallery
-           // galleryAddPic(savedImagePath)
-            Toast.makeText(context, "IMAGE SAVED", Toast.LENGTH_LONG).show()
-        }
-        return savedImagePath
+    /**
+     *
+     */
+    private fun sendLink() {
+        mActivityListener.sendLink(photo?.urls?.regular.toString())
     }
 
-    private fun galleryAddPic(imagePath: String) {
-        val mediaScanIntent = Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE)
-        val f = File(imagePath)
-        val contentUri: Uri = Uri.fromFile(f)
-        mediaScanIntent.data = contentUri
-       // sendBroadcast(mediaScanIntent)
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        Toast.makeText(context, "Send", Toast.LENGTH_SHORT).show()
     }
 }

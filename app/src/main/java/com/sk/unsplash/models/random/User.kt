@@ -1,6 +1,7 @@
 package com.sk.unsplash.models.random
 
 import com.sk.unsplash.models.random.LinksX
+import java.io.Serializable
 
 data class User(
     val bio: String,
@@ -16,4 +17,4 @@ data class User(
     val twitter_username: String,
     val updated_at: String,
     val username: String
-)
+) : Serializable
