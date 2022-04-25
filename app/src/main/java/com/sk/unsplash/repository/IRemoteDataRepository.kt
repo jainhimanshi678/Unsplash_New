@@ -9,10 +9,10 @@ interface IRemoteDataRepository {
     /**
      * Get photo
      */
-    suspend fun getPhoto(): Response<PhotoResponse>
+    suspend fun getPhoto(count:Int): Response<PhotoResponse>
 
     /**
      * Get search photo response
      */
-    suspend fun getSearchPhotoResponse(query: String): Response<SearchPhotoResponse>
+    suspend fun getSearchPhotoResponse(query: String,count: Int): Response<SearchPhotoResponse>
 }

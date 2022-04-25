@@ -16,9 +16,9 @@ class UnsplashViewModel : ViewModel() {
 
     private val localRepository = LocalDataRepository
 
-    fun getPhotoResponse(listener: (PhotoResponse?) -> Unit) = viewModelScope.launch {
+    fun getPhotoResponse(count: Int, listener: (PhotoResponse?) -> Unit) = viewModelScope.launch {
         try {
-            val response = remoteRepository.getPhoto()
+            val response = remoteRepository.getPhoto(count)
             if (response.isSuccessful) {
                 response.body()?.let {
                     listener(it)
@@ -34,10 +34,14 @@ class UnsplashViewModel : ViewModel() {
     /**
      * To get searched photo
      */
-    fun getSearchResponseForPhoto(query: String, listener: (SearchPhotoResponse?) -> Unit) =
+    fun getSearchResponseForPhoto(
+        query: String,
+        count: Int,
+        listener: (SearchPhotoResponse?) -> Unit
+    ) =
         viewModelScope.launch {
             try {
-                val response = remoteRepository.getSearchPhotoResponse(query)
+                val response = remoteRepository.getSearchPhotoResponse(query, count)
                 if (response.isSuccessful) {
                     response.body()?.let {
                         listener(it)

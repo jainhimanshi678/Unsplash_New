@@ -14,7 +14,8 @@ interface UnsplashService {
     @GET("photos")
     suspend fun getPhotos(
         @Query("client_id") query: String,
-        @Query("per_page") per_page: Int
+        @Query("per_page") per_page: Int,
+        @Query("page") page: Int
     ): Response<PhotoResponse>
 
     @GET("search/photos")

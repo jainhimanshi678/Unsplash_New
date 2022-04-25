@@ -5,16 +5,16 @@ import com.sk.unsplash.models.photo.PhotoResponse
 import com.sk.unsplash.models.searchPhoto.SearchPhotoResponse
 import retrofit2.Response
 
-object RemoteDataRepository:IRemoteDataRepository {
+object RemoteDataRepository : IRemoteDataRepository {
 
-    private const val client_id="z3TxIQufXZltDjINoUn8EsBupe8h-I_mCIhxYTESgwU"
+    private const val client_id = "z3TxIQufXZltDjINoUn8EsBupe8h-I_mCIhxYTESgwU"
 
-    override suspend fun getPhoto(): Response<PhotoResponse> {
-        return UnsplashApi.UnsplashApi.getPhotos(client_id,200)
+    override suspend fun getPhoto(count: Int): Response<PhotoResponse> {
+        return UnsplashApi.UnsplashApi.getPhotos(client_id, 200, count)
     }
 
-    override suspend fun getSearchPhotoResponse(query:String): Response<SearchPhotoResponse> {
-        return UnsplashApi.UnsplashApi.getSerachPhoto(client_id,20,query)
+    override suspend fun getSearchPhotoResponse(query: String, count: Int): Response<SearchPhotoResponse> {
+        return UnsplashApi.UnsplashApi.getSerachPhoto(client_id, 20, query)
     }
 
 }

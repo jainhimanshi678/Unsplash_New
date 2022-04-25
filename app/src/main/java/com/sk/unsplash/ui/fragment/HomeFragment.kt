@@ -1,15 +1,19 @@
 package com.sk.unsplash.ui.fragment
 
 import android.os.Bundle
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
+import androidx.core.widget.NestedScrollView
+import androidx.recyclerview.widget.GridLayoutManager
 import com.sk.unsplash.R
 import com.sk.unsplash.base.BaseFragment
 import com.sk.unsplash.databinding.FragmentHomeBinding
-import androidx.recyclerview.widget.GridLayoutManager
+import com.sk.unsplash.models.photo.PhotoResponseItem
 import com.sk.unsplash.ui.adapter.PhotoAdapter
+import kotlinx.coroutines.*
 
 
 class HomeFragment : BaseFragment() {
@@ -24,6 +28,16 @@ class HomeFragment : BaseFragment() {
      */
     private lateinit var binding: FragmentHomeBinding
 
+    var count = 0
+
+    /**
+     *List to hold photo response item
+     */
+    private var list = arrayListOf<PhotoResponseItem>()
+
+    var searchCount = 0
+
+    private var searchJob: Job? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,14 +52,15 @@ class HomeFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentHomeBinding.bind(view)
         setToolBar()
+        setPhotoResponse((1..10).random())
         setRecyclerView()
-        setPhotoResponse()
         setOnClickListener()
         setSearchView()
+        setOnScrollListener()
     }
 
     /**
-     * Set on click listener
+     * Set on click listener.
      */
     private fun setOnClickListener() {
         photoAdapter.longPressListener {
@@ -53,17 +68,23 @@ class HomeFragment : BaseFragment() {
         }
     }
 
+    /**
+     * Set toolbar.
+     */
     private fun setToolBar() {
         //(activity as AppCompatActivity?)?.setSupportActionBar(binding.toolbar)
     }
 
     /**
-     * Get and set photos from api
+     * Get and set photos from api.
      */
-    private fun setPhotoResponse() {
-        unsplashViewModel.getPhotoResponse {
+    private fun setPhotoResponse(count: Int) {
+        unsplashViewModel.getPhotoResponse(count) {
             if (it != null) {
-                photoAdapter.submitHints(it)
+                for (photo in it) {
+                    list.add(photo)
+                }
+                list.let { it1 -> photoAdapter.submitHints(it1) }
                 binding.pbProgress.visibility = View.GONE
             }
         }
@@ -82,24 +103,66 @@ class HomeFragment : BaseFragment() {
     }
 
     /**
+     * Set on scroll listener.
+     */
+    private fun setOnScrollListener() {
+        binding.nsvHome.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener
+        { v, scrollX, scrollY, oldScrollX, oldScrollY ->
+            // on scroll change we are checking when users scroll as bottom.
+            if (scrollY == v.getChildAt(0).measuredHeight - v.measuredHeight) {
+                // in this method we are incrementing page number,
+                // making progress bar visible and calling get data method.
+                count++
+                // on below line we are making our progress bar visible.
+                binding.pbProgress.setVisibility(View.VISIBLE)
+                if (count < 20) {
+                    // on below line we are again calling
+                    // a method to load data in our array list.
+                    loadMore()
+                }
+            }
+        })
+    }
+
+    /**
+     *Call api for more results
+     */
+    private fun loadMore() {
+        setPhotoResponse(count++)
+    }
+
+    /**
      *Get search item
      */
     private fun setSearchView() {
         binding.svPhoto.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextChange(p0: String?): Boolean {
-                if (p0 != null && p0 != "") {
-                    getSearchPhoto(p0)
-                } else {
-                    setPhotoResponse()
+                searchJob?.cancel()
+                searchJob = GlobalScope.launch {
+                    delay(300)
+                    if (p0 != null && p0 != "") {
+                        list.clear()
+                        getSearchPhoto(p0, count++)
+                    } else {
+                        list.clear()
+                        setPhotoResponse((1..10).random())
+                    }
                 }
                 return false
             }
 
             override fun onQueryTextSubmit(p0: String?): Boolean {
-                if (p0 != null && p0 != "") {
-                    getSearchPhoto(p0)
-                } else {
-                    setPhotoResponse()
+                searchJob?.cancel()
+                searchJob = GlobalScope.launch {
+                    delay(300)
+                    if (p0 != null && p0 != "") {
+                        list.clear()
+                        binding.pbProgress.visibility = View.VISIBLE
+                        getSearchPhoto(p0, count++)
+                    } else {
+                        list.clear()
+                        setPhotoResponse((1..10).random())
+                    }
                 }
                 return false
             }
@@ -109,10 +172,14 @@ class HomeFragment : BaseFragment() {
     /**
      * Get search item response
      */
-    private fun getSearchPhoto(query: String) {
-        unsplashViewModel.getSearchResponseForPhoto(query) {
+    private fun getSearchPhoto(query: String, count: Int) {
+        unsplashViewModel.getSearchResponseForPhoto(query, count) {
+            binding.pbProgress.visibility = View.GONE
             if (it != null) {
-                photoAdapter.submitHints(it.results)
+                for (photo in it.results) {
+                    list.add(photo)
+                }
+                photoAdapter.submitHints(list)
                 binding.pbProgress.visibility = View.GONE
             }
         }
