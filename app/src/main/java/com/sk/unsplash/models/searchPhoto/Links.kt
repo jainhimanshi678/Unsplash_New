@@ -1,0 +1,9 @@
+package com.sk.unsplash.models.searchPhoto
+
+import java.io.Serializable
+
+data class Links(
+    val download: String,
+    val html: String,
+    val self: String
+) : Serializable

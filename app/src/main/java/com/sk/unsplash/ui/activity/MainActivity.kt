@@ -1,6 +1,6 @@
-package com.sk.unsplash.ui.Activity
+package com.sk.unsplash.ui.activity
 
-import android.os.Build
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.WindowManager
@@ -8,13 +8,13 @@ import com.sk.unsplash.R
 import com.sk.unsplash.databinding.ActivityMainBinding
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import com.sk.unsplash.ui.fragment.HomeFragment
 import com.sk.unsplash.interfaces.IMainActivity
+import com.sk.unsplash.models.photo.PhotoResponseItem
+import com.sk.unsplash.ui.fragment.*
 
+class MainActivity : AppCompatActivity(), IMainActivity {
 
-class MainActivity : AppCompatActivity(),IMainActivity {
-
-    lateinit var binding: ActivityMainBinding
+    private lateinit var binding: ActivityMainBinding
 
     /**
      * Holds current fragment.
@@ -33,12 +33,9 @@ class MainActivity : AppCompatActivity(),IMainActivity {
     /**
      * Sets the color of status bar
      */
-    private fun setStatusBarColor(){
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.white));
-        }
+    private fun setStatusBarColor() {
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+        window.statusBarColor = ContextCompat.getColor(this, R.color.teal_700)
     }
 
     /**
@@ -50,16 +47,13 @@ class MainActivity : AppCompatActivity(),IMainActivity {
                 R.id.m_Home -> {
                     switchFragment(HomeFragment())
                 }
-                /* R.id.actionInsights -> {
-                     switchFragment(InsightsFragment())
-                     return@setOnItemSelectedListener true
+                 R.id.m_Category -> {
+                     switchFragment(CategoryFragment())
                  }
-                 R.id.actionAccount -> {
-                     switchFragment(AccountsFragment())
-                     return@setOnItemSelectedListener true
-                 }*/
+                 R.id.m_Setting -> {
+                     switchFragment((SettingFragment()))
+                 }
             }
-            true
         }
     }
 
@@ -68,7 +62,7 @@ class MainActivity : AppCompatActivity(),IMainActivity {
      *
      * @param fragment requested fragment
      */
-    fun switchFragment(fragment: Fragment) {
+     override fun switchFragment(fragment: Fragment) {
         mCurrentFragment = supportFragmentManager.findFragmentById(binding.flMain.id)
         try {
             if (fragment.javaClass.name != mCurrentFragment?.javaClass?.name ?: "") {
@@ -82,19 +76,30 @@ class MainActivity : AppCompatActivity(),IMainActivity {
         }
     }
 
-    override fun onBackPressed() {
-        super.onBackPressed()
-        mCurrentFragment = supportFragmentManager.findFragmentById(binding.flMain.id)
-        if (mCurrentFragment is HomeFragment
-        ) {
-            finish()
-        }
-    }
-
-    private fun setCurrentFragment(fragment:Fragment)=
+    private fun setCurrentFragment(fragment: Fragment) =
         supportFragmentManager.beginTransaction().apply {
-            replace(binding.flMain.id,fragment)
+            replace(binding.flMain.id, fragment)
             commit()
         }
+
+    override fun setPhotoLongPressListener(photo: PhotoResponseItem) {
+        val photoDialogFragment = PhotoDialogFragment().newInstance(photo)
+        photoDialogFragment.show(supportFragmentManager, "filter")
+        //switchFragment(PhotoDialogFragment().newInstance(photo))
+    }
+
+    override fun setPhotoOnClickListener(photo: PhotoResponseItem) {
+        switchFragment(ExploreFragment().newInstance(photo))
+    }
+
+    override fun sendLink(photo: String) {
+        val sendIntent: Intent = Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_TEXT, photo)
+            type = "text/plain"
+        }
+        val shareIntent = Intent.createChooser(sendIntent, null)
+        startActivity(shareIntent)
+    }
 
 }

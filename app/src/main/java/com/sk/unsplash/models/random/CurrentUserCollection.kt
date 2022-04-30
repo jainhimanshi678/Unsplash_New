@@ -1,5 +1,7 @@
 package com.sk.unsplash.models.random
 
+import java.io.Serializable
+
 data class CurrentUserCollection(
     val cover_photo: Any,
     val id: Int,
@@ -8,4 +10,4 @@ data class CurrentUserCollection(
     val title: String,
     val updated_at: String,
     val user: Any
-)
+) : Serializable

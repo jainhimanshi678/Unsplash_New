@@ -1,5 +1,7 @@
 package com.sk.unsplash.models.photo
 
+import java.io.Serializable
+
 data class User(
     val bio: String,
     val id: String,
@@ -14,4 +16,4 @@ data class User(
     val total_photos: Int,
     val twitter_username: String,
     val username: String
-)
+) : Serializable

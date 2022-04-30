@@ -3,12 +3,20 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/ASUS/AndroidStudioProjects/Unsplash/app/src/main/res/drawable/ic_baseline_arrow_downward_24.xml" value="0.1135" />
+        <entry key="..\:/Users/ASUS/AndroidStudioProjects/Unsplash/app/src/main/res/drawable/ic_baseline_close_24.xml" value="0.21851851851851853" />
+        <entry key="..\:/Users/ASUS/AndroidStudioProjects/Unsplash/app/src/main/res/drawable/ic_baseline_person_24.xml" value="0.21851851851851853" />
         <entry key="..\:/Users/ASUS/AndroidStudioProjects/Unsplash/app/src/main/res/drawable/ic_baseline_search_24.xml" value="0.22962962962962963" />
         <entry key="..\:/Users/ASUS/AndroidStudioProjects/Unsplash/app/src/main/res/drawable/ic_my_project.xml" value="0.1675925925925926" />
+        <entry key="..\:/Users/ASUS/AndroidStudioProjects/Unsplash/app/src/main/res/drawable/search_backgroud.xml" value="0.21574074074074073" />
         <entry key="..\:/Users/ASUS/AndroidStudioProjects/Unsplash/app/src/main/res/layout/activity_main.xml" value="0.1793478260869565" />
         <entry key="..\:/Users/ASUS/AndroidStudioProjects/Unsplash/app/src/main/res/layout/fragment_blank.xml" value="0.1598731884057971" />
+        <entry key="..\:/Users/ASUS/AndroidStudioProjects/Unsplash/app/src/main/res/layout/fragment_explore.xml" value="0.25" />
         <entry key="..\:/Users/ASUS/AndroidStudioProjects/Unsplash/app/src/main/res/layout/fragment_home.xml" value="0.1598731884057971" />
+        <entry key="..\:/Users/ASUS/AndroidStudioProjects/Unsplash/app/src/main/res/layout/fragment_photo_dialog.xml" value="0.2359375" />
+        <entry key="..\:/Users/ASUS/AndroidStudioProjects/Unsplash/app/src/main/res/layout/fragment_user_photo_collection.xml" value="0.25" />
         <entry key="..\:/Users/ASUS/AndroidStudioProjects/Unsplash/app/src/main/res/layout/main_photo_item.xml" value="0.15307971014492755" />
+        <entry key="..\:/Users/ASUS/AndroidStudioProjects/Unsplash/app/src/main/res/layout/photo_list_item.xml" value="0.25" />
         <entry key="..\:/Users/ASUS/AndroidStudioProjects/Unsplash/app/src/main/res/menu/navigation_drawer_menu.xml" value="0.25" />
       </map>
     </option>
