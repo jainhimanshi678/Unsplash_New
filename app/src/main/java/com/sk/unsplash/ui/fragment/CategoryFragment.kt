@@ -15,7 +15,7 @@ import com.sk.unsplash.ui.adapter.PhotoAdapter
 import kotlinx.coroutines.*
 
 
-class HomeFragment : BaseFragment() {
+class CategoryFragment : BaseFragment() {
 
     /**
      * Holds adapter object
@@ -69,10 +69,6 @@ class HomeFragment : BaseFragment() {
         photoAdapter.longPressListener {
             mMainActivityListener.setPhotoLongPressListener(it)
         }
-
-        photoAdapter.clickListener {
-            mMainActivityListener.setPhotoOnClickListener(it)
-        }
     }
 
     /**
@@ -114,10 +110,16 @@ class HomeFragment : BaseFragment() {
     private fun setOnScrollListener() {
         binding.nsvHome.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener
         { v, _, scrollY, _, _ ->
+            // on scroll change we are checking when users scroll as bottom.
             if (scrollY == v.getChildAt(0).measuredHeight - v.measuredHeight) {
+                // in this method we are incrementing page number,
+                // making progress bar visible and calling get data method.
                 count++
+                // on below line we are making our progress bar visible.
                 binding.pbProgress.visibility = View.VISIBLE
                 if (count < 20) {
+                    // on below line we are again calling
+                    // a method to load data in our array list.
                     isFirstTime = false
                     loadMore()
                 }
@@ -156,7 +158,6 @@ class HomeFragment : BaseFragment() {
             }
 
             override fun onQueryTextSubmit(p0: String?): Boolean {
-                binding.pbProgress.visibility = View.VISIBLE
                 searchQuery = p0 ?: ""
                 count = 0
                 searchJob?.cancel()
@@ -165,6 +166,7 @@ class HomeFragment : BaseFragment() {
                     list.clear()
                     delay(300)
                     if (p0 != null && p0 != "") {
+                        binding.pbProgress.visibility = View.VISIBLE
                         getSearchPhoto(p0, count++)
                     } else {
                         setPhotoResponse((1..10).random())

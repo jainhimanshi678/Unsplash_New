@@ -55,7 +55,30 @@ class UnsplashViewModel : ViewModel() {
         }
 
     /**
-     *
+     * To get user collection
+     */
+    fun getUserCollection(
+        username: String,
+        count: Int,
+        listener: (SearchPhotoResponse?) -> Unit
+    ) =
+        viewModelScope.launch {
+            try {
+                val response = remoteRepository.getSearchPhotoResponse(username, count)
+                if (response.isSuccessful) {
+                    response.body()?.let {
+                        listener(it)
+                    }
+                } else {
+                    listener(null)
+                }
+            } catch (e: Exception) {
+                listener(null)
+            }
+        }
+
+    /**
+     *Saves the image in gallery.
      */
     fun saveImage(
         image: Bitmap,

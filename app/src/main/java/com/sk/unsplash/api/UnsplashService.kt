@@ -22,6 +22,14 @@ interface UnsplashService {
     suspend fun getSerachPhoto(
         @Query("client_id") query: String,
         @Query("per_page") per_page: Int,
-        @Query("query") item:String
+        @Query("query") item:String,
+        @Query("page") page: Int
+    ): Response<SearchPhotoResponse>
+
+    @GET("users/:username/photos")
+    suspend fun getUserCollection(
+        @Query("client_id") query: String,
+        @Query("per_page") per_page: Int,
+        @Query("username") username:String,
     ): Response<SearchPhotoResponse>
 }

@@ -5,10 +5,13 @@
     <string name="nav_open">Open</string>
     <string name="nav_close">Close</string>
     <string name="home">Home</string>
+    <string name="category">Categories</string>
+    <string name="setting">Setting</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="toolbar_subtitle">Beautiful, free photos.</string>
     <string name="likes">\tlikes</string>
     <string name="search_string">Search for anything</string>
     <string name="downloading">Downloading...</string>
+    <string name="explore">Explore</string>
 </resources>

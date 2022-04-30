@@ -5,6 +5,7 @@ import android.app.ActionBar
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,7 +14,7 @@ import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.target.SimpleTarget
+import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.sk.unsplash.R
 import com.sk.unsplash.constants.StringConstants
@@ -51,7 +52,7 @@ class PhotoDialogFragment : DialogFragment() {
     /**
      * Holds MainActivity object.
      */
-    lateinit var mActivityListener: IMainActivity
+    private lateinit var mActivityListener: IMainActivity
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -90,7 +91,7 @@ class PhotoDialogFragment : DialogFragment() {
     private fun setupView() {
         Glide.with(requireContext()).load(photo?.urls?.regular).into(binding.ivLarge)
         binding.tvLikes.text = photo?.likes.toString() + resources.getString(R.string.likes)
-        Glide.with(requireContext()).load(photo?.user?.profile_image?.small).into(binding.ivProfile)
+        Glide.with(requireContext()).load(photo?.user?.profile_image?.small).placeholder(R.drawable.ic_baseline_person_24).into(binding.ivProfile)
         binding.tvUserName.text = photo?.user?.bio
         binding.tvProfile.text = photo?.user?.name
     }
@@ -112,7 +113,7 @@ class PhotoDialogFragment : DialogFragment() {
         Glide.with(requireContext())
             .asBitmap()
             .load(photo?.urls?.full ?: photo?.urls?.thumb)
-            .into(object : SimpleTarget<Bitmap?>() {
+            .into(object : CustomTarget<Bitmap?>() {
                 override fun onResourceReady(
                     resource: Bitmap,
                     transition: Transition<in Bitmap?>?
@@ -126,6 +127,10 @@ class PhotoDialogFragment : DialogFragment() {
                             Toast.makeText(context, "Image Saved!!", Toast.LENGTH_LONG).show()
                         }
                     }
+                }
+
+                override fun onLoadCleared(placeholder: Drawable?) {
+                    TODO("Not yet implemented")
                 }
             })
     }

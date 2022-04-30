@@ -3,13 +3,15 @@ package com.sk.unsplash.ui.adapter
 import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.sk.unsplash.databinding.MainPhotoItemBinding
+import com.sk.unsplash.R
+import com.sk.unsplash.databinding.ExploreListItemBinding
 import com.sk.unsplash.models.photo.PhotoResponseItem
 
-class PhotoAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class PhotoListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     /**
      * Holds recent item Photo list.
@@ -24,17 +26,17 @@ class PhotoAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     /**
      * Set on long press listener
      */
-    var photoLongPressListener: ((PhotoResponseItem) -> Unit)? = null
+    private var photoLongPressListener: ((PhotoResponseItem) -> Unit)? = null
 
     /**
      * Set on click listener
      */
-    var photoOnClickListener: ((PhotoResponseItem) -> Unit)? = null
+    private var photoOnClickListener: ((PhotoResponseItem) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         context = parent.context
         return PhotoItemHolder(
-            MainPhotoItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            ExploreListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         )
     }
 
@@ -49,12 +51,19 @@ class PhotoAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     /**
      *  Class to bind data
      */
-    inner class PhotoItemHolder(private val binding: MainPhotoItemBinding) :
+    inner class PhotoItemHolder(private val binding: ExploreListItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
+        @SuppressLint("SetTextI18n")
         fun bindData(photo: PhotoResponseItem) {
-            Glide.with(context).load(photo.urls.small).into(binding.ivPhoto)
-            binding.tvName.text = photo.description
-            binding.ivPhoto.setOnLongClickListener {
+            Glide.with(context).load(photo.urls.regular).into(binding.ivLarge)
+            Glide.with(context).load(photo.user.profile_image.small).placeholder(R.drawable.ic_baseline_person_24).into(binding.ivProfile)
+            binding.tvProfile.text = photo.user.name
+            if(photo.user.bio != null) {
+                binding.tvUserName.text = photo.user.bio
+                binding.tvUserName.visibility= View.VISIBLE
+            }
+            binding.tvLikes.text = photo.likes.toString() + context.resources.getString(R.string.likes)
+            /*binding.ivPhoto.setOnLongClickListener {
                 photoLongPressListener?.let { onClick ->
                     onClick(photo)
                 }
@@ -64,7 +73,7 @@ class PhotoAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 photoOnClickListener?.let { onClick ->
                     onClick(photo)
                 }
-            }
+            }*/
         }
     }
 

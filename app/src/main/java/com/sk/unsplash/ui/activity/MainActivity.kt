@@ -8,10 +8,9 @@ import com.sk.unsplash.R
 import com.sk.unsplash.databinding.ActivityMainBinding
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import com.sk.unsplash.ui.fragment.HomeFragment
 import com.sk.unsplash.interfaces.IMainActivity
 import com.sk.unsplash.models.photo.PhotoResponseItem
-import com.sk.unsplash.ui.fragment.PhotoDialogFragment
+import com.sk.unsplash.ui.fragment.*
 
 class MainActivity : AppCompatActivity(), IMainActivity {
 
@@ -48,14 +47,12 @@ class MainActivity : AppCompatActivity(), IMainActivity {
                 R.id.m_Home -> {
                     switchFragment(HomeFragment())
                 }
-                /* R.id.actionInsights -> {
-                     switchFragment(InsightsFragment())
-                     return@setOnItemSelectedListener true
+                 R.id.m_Category -> {
+                     switchFragment(CategoryFragment())
                  }
-                 R.id.actionAccount -> {
-                     switchFragment(AccountsFragment())
-                     return@setOnItemSelectedListener true
-                 }*/
+                 R.id.m_Setting -> {
+                     switchFragment((SettingFragment()))
+                 }
             }
         }
     }
@@ -65,7 +62,7 @@ class MainActivity : AppCompatActivity(), IMainActivity {
      *
      * @param fragment requested fragment
      */
-    private fun switchFragment(fragment: Fragment) {
+     override fun switchFragment(fragment: Fragment) {
         mCurrentFragment = supportFragmentManager.findFragmentById(binding.flMain.id)
         try {
             if (fragment.javaClass.name != mCurrentFragment?.javaClass?.name ?: "") {
@@ -79,15 +76,6 @@ class MainActivity : AppCompatActivity(), IMainActivity {
         }
     }
 
-    override fun onBackPressed() {
-        super.onBackPressed()
-        mCurrentFragment = supportFragmentManager.findFragmentById(binding.flMain.id)
-        if (mCurrentFragment is HomeFragment
-        ) {
-            finish()
-        }
-    }
-
     private fun setCurrentFragment(fragment: Fragment) =
         supportFragmentManager.beginTransaction().apply {
             replace(binding.flMain.id, fragment)
@@ -98,6 +86,10 @@ class MainActivity : AppCompatActivity(), IMainActivity {
         val photoDialogFragment = PhotoDialogFragment().newInstance(photo)
         photoDialogFragment.show(supportFragmentManager, "filter")
         //switchFragment(PhotoDialogFragment().newInstance(photo))
+    }
+
+    override fun setPhotoOnClickListener(photo: PhotoResponseItem) {
+        switchFragment(ExploreFragment().newInstance(photo))
     }
 
     override fun sendLink(photo: String) {

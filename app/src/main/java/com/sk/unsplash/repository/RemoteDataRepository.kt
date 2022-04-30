@@ -14,7 +14,7 @@ object RemoteDataRepository : IRemoteDataRepository {
     }
 
     override suspend fun getSearchPhotoResponse(query: String, count: Int): Response<SearchPhotoResponse> {
-        return UnsplashApi.UnsplashApi.getSerachPhoto(client_id, 20, query)
+        return UnsplashApi.UnsplashApi.getSerachPhoto(client_id, 20, query,count)
     }
 
 }

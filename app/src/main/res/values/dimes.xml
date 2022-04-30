@@ -39,6 +39,7 @@
     <dimen name="onboarding_text_height">250dp</dimen>
     <dimen name="dimen_200">200dp</dimen>
     <dimen name="dimen_15">15dp</dimen>
+    <dimen name="dimen_14">14dp</dimen>
     <dimen name="dimen_25">25dp</dimen>
     <dimen name="dimen_53">53dp</dimen>
     <dimen name="dimen_120">120dp</dimen>
