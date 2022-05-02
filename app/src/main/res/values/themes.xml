@@ -27,7 +27,7 @@
         <!-- Text color -->
         <item name="android:editTextColor">@color/black</item>
         <!-- Hint text color -->
-        <item name="android:textColorHint">@color/light_grey</item>
+        <item name="android:textColorHint">@color/white</item>
         <item name="android:borderlessButtonStyle">@color/grey</item>
     </style>
     <style name="toolbarMenuTheme" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">

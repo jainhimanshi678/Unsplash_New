@@ -18,7 +18,6 @@
     <dimen name="stacked_bar_height">42dp</dimen>
     <dimen name="dimen_7">7dp</dimen>
     <dimen name="dimen_3">3dp</dimen>
-    <dimen name="log_food_field_height">35dp</dimen>
     <dimen name="dimen_5">5dp</dimen>
     <dimen name="large_heading_size">20sp</dimen>
     <dimen name="dimen_2">2dp</dimen>
@@ -36,7 +35,7 @@
     <dimen name="dimen_9">9dp</dimen>
     <dimen name="card_radius">4dp</dimen>
     <dimen name="dimen_65">84dp</dimen>
-    <dimen name="onboarding_text_height">250dp</dimen>
+    <dimen name="splash_textview">40dp</dimen>
     <dimen name="dimen_200">200dp</dimen>
     <dimen name="dimen_15">15dp</dimen>
     <dimen name="dimen_14">14dp</dimen>

@@ -84,11 +84,10 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:layout_marginLeft="@dimen/dimen_12"
-            android:layout_marginTop="@dimen/dimen_6"
+            android:layout_marginTop="@dimen/dimen_3"
             android:layout_marginRight="@dimen/dimen_12"
             android:layout_marginBottom="@dimen/dimen_12"
             android:visibility="gone"
-            android:fontFamily="@font/archivo_black"
             android:textColor="@color/black" />
 
     </LinearLayout>

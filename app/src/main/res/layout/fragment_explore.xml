@@ -21,5 +21,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
+    <com.google.android.material.progressindicator.LinearProgressIndicator
+        android:id="@+id/pb_download"
+        android:layout_width="match_parent"
+        android:layout_below="@+id/tb_explore"
+        android:visibility="gone"
+        android:layout_height="wrap_content"
+        app:trackThickness="@dimen/dimen_12"
+        app:indicatorColor="@color/black"
+        app:trackColor="@color/teal_700"
+        android:indeterminate="true" />
+
 
 </RelativeLayout>
