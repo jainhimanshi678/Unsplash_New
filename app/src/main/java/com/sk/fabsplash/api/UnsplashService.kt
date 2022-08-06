@@ -1,6 +1,8 @@
 package com.sk.fabsplash.api
 
+import com.sk.fabsplash.models.collection.CollectionResult
 import com.sk.fabsplash.models.photo.PhotoResponse
+import com.sk.fabsplash.models.searchCollection.SearchCollectionResponse
 import com.sk.fabsplash.models.searchPhoto.SearchPhotoResponse
 import retrofit2.Response
 import retrofit2.http.GET
@@ -19,7 +21,7 @@ interface UnsplashService {
     suspend fun getSerachPhoto(
         @Query("client_id") query: String,
         @Query("per_page") per_page: Int,
-        @Query("query") item:String,
+        @Query("query") item: String,
         @Query("page") page: Int
     ): Response<SearchPhotoResponse>
 
@@ -27,6 +29,20 @@ interface UnsplashService {
     suspend fun getUserCollection(
         @Query("client_id") query: String,
         @Query("per_page") per_page: Int,
-        @Query("username") username:String,
+        @Query("username") username: String,
     ): Response<SearchPhotoResponse>
+
+    @GET("collections")
+    suspend fun getCollections(
+        @Query("client_id") query: String,
+        @Query("per_page") per_page: Int,
+        @Query("page") page: Int
+    ): Response<CollectionResult>
+
+    @GET("search/collections")
+    suspend fun searchCollection(
+        @Query("client_id") query: String,
+        @Query("per_page") per_page: Int,
+        @Query("query") item: String
+    ): Response<SearchCollectionResponse>
 }

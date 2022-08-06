@@ -3,8 +3,10 @@ package com.sk.fabsplash.viewModel
 import android.graphics.Bitmap
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.sk.fabsplash.models.collection.CollectionResult
 import com.sk.fabsplash.models.photo.PhotoResponse
 import com.sk.fabsplash.models.photo.PhotoResponseItem
+import com.sk.fabsplash.models.searchCollection.SearchCollectionResponse
 import com.sk.fabsplash.models.searchPhoto.SearchPhotoResponse
 import com.sk.fabsplash.repository.LocalDataRepository
 import com.sk.fabsplash.repository.RemoteDataRepository
@@ -30,6 +32,25 @@ class UnsplashViewModel : ViewModel() {
             listener(null)
         }
     }
+
+    /**
+     * Get collection response
+     */
+    fun getCollectionResponse(count: Int, listener: (CollectionResult?) -> Unit) =
+        viewModelScope.launch {
+            try {
+                val response = remoteRepository.getCollection(count)
+                if (response.isSuccessful) {
+                    response.body()?.let {
+                        listener(it)
+                    }
+                } else {
+                    listener(null)
+                }
+            } catch (e: Exception) {
+                listener(null)
+            }
+        }
 
     /**
      * To get searched photo
@@ -89,6 +110,18 @@ class UnsplashViewModel : ViewModel() {
             localRepository.savePhoto(image, photoResponseItem, listener)
         } catch (e: Exception) {
 
+        }
+    }
+
+    /**
+     * Get search collection.
+     */
+    fun getSearchCollection(query: String, listener: (SearchCollectionResponse?) -> Unit) = viewModelScope.launch {
+        val result = remoteRepository.getSearchCollection(query, 200)
+        if (result != null) {
+            if(result.isSuccessful){
+                listener(result.body())
+            }
         }
     }
 

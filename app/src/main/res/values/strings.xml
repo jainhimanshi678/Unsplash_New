@@ -14,4 +14,6 @@
     <string name="search_string">Search for anything</string>
     <string name="downloading">Downloading...</string>
     <string name="explore">Explore</string>
+    <string name="Collection">Collection</string>
+    <string name="collection_search_string">Search for Collections</string>
 </resources>

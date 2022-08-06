@@ -1,34 +1,49 @@
 package com.sk.fabsplash.ui.fragment
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SearchView
+import androidx.core.widget.NestedScrollView
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.sk.fabsplash.R
+import com.sk.fabsplash.base.BaseFragment
+import com.sk.fabsplash.databinding.FragmentCategoryBinding
+import com.sk.fabsplash.models.collection.CollectionResultItem
+import com.sk.fabsplash.ui.adapter.CollectionAdapter
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+class CategoryFragment : BaseFragment() {
 
-/**
- * A simple [Fragment] subclass.
- * Use the [CategoryFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class CategoryFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    /**
+     * Holds binding
+     */
+    private lateinit var binding: FragmentCategoryBinding
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    /**
+     * Holds adapter object
+     */
+    private lateinit var collectionAdapter: CollectionAdapter
+
+    /**
+     *List to hold photo response item
+     */
+    private var list = arrayListOf<CollectionResultItem>()
+
+    var count = 0
+
+    /**
+     * Holds search query.
+     */
+    var searchQuery = ""
+
+    private var searchJob: Job? = null
+
+    private var isFirstTime = true
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,23 +53,128 @@ class CategoryFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_category, container, false)
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment CategoryFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            CategoryFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding= FragmentCategoryBinding.bind(view)
+        setCollectionResponse((1..10).random())
+      //  setOnClickListener()
+        setSearchView()
+        setOnScrollListener()
+        setRecyclerView()
+    }
+
+    /**
+     * Function to set recycler view.
+     */
+    private fun setRecyclerView() {
+        collectionAdapter = CollectionAdapter()
+        binding.rvPhoto.apply {
+            setHasFixedSize(true)
+            layoutManager = LinearLayoutManager(requireContext())
+            adapter = collectionAdapter
+        }
+    }
+
+    /**
+     * Get and set collections from api.
+     */
+    private fun setCollectionResponse(count: Int) {
+        unsplashViewModel.getCollectionResponse(count) {
+            if (it != null) {
+                for (collectionResultItem in it) {
+                    list.add(collectionResultItem)
+                }
+                list.let { it1 -> collectionAdapter.submitCollection(it1) }
+                binding.pbProgress.visibility = View.GONE
+            }
+        }
+    }
+
+    /**
+     *Get search item
+     */
+    private fun setSearchView() {
+        binding.svPhoto.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextChange(p0: String?): Boolean {
+                count = 0
+                searchQuery = p0 ?: ""
+                searchJob?.cancel()
+                isFirstTime = true
+                searchJob = GlobalScope.launch {
+                    list.clear()
+                    delay(300)
+                    if (p0 != null && p0 != "") {
+                        getSearchPhoto(p0, count++)
+                    } else {
+                        setCollectionResponse((1..10).random())
+                    }
+                }
+                return false
+            }
+
+            override fun onQueryTextSubmit(p0: String?): Boolean {
+                binding.pbProgress.visibility = View.VISIBLE
+                searchQuery = p0 ?: ""
+                count = 0
+                searchJob?.cancel()
+                isFirstTime = true
+                searchJob = GlobalScope.launch {
+                    list.clear()
+                    delay(300)
+                    if (p0 != null && p0 != "") {
+                        getSearchPhoto(p0, count++)
+                    } else {
+                        setCollectionResponse((1..10).random())
+                    }
+                }
+                return false
+            }
+        })
+    }
+
+    /**
+     * Get search item response
+     */
+    private fun getSearchPhoto(query: String, count: Int) {
+        if (isFirstTime) {
+            list.clear()
+        }
+        unsplashViewModel.getSearchCollection(query) {
+            binding.pbProgress.visibility = View.GONE
+            if (it != null) {
+                for (photo in it.results) {
+                 //   list.add(photo)
+                }
+                collectionAdapter.submitCollection(list)
+                binding.pbProgress.visibility = View.GONE
+            }
+        }
+    }
+
+    /**
+     * Set on scroll listener.
+     */
+    private fun setOnScrollListener() {
+        binding.nsvCollection.setOnScrollChangeListener(
+            NestedScrollView.OnScrollChangeListener
+        { v, _, scrollY, _, _ ->
+            if (scrollY == v.getChildAt(0).measuredHeight - v.measuredHeight) {
+                count++
+                binding.pbProgress.visibility = View.VISIBLE
+                if (count < 20) {
+                    isFirstTime = false
+                    loadMore()
                 }
             }
+        })
     }
+
+    /**
+     *Call api for more results
+     */
+    private fun loadMore() {
+        if (searchQuery == "") setCollectionResponse(count++)
+        else getSearchPhoto(searchQuery, count++)
+    }
+
 }

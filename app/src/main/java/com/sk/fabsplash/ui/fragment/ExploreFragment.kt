@@ -135,8 +135,8 @@ class ExploreFragment : BaseFragment() {
                         override fun onLoadCleared(placeholder: Drawable?) {
                         }
                     })
-            }catch (e:Exception){
-                Toast.makeText(context,e.message,Toast.LENGTH_SHORT).show()
+            } catch (e: Exception) {
+                Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
             }
         }
 

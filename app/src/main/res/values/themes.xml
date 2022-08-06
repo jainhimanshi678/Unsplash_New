@@ -23,6 +23,7 @@
         <item name="button_color">#000</item>
         <item name="android:windowContentTransitions">true</item>
     </style>
+
     <style name="ThemeOverlay.SearchView" parent="Theme.AppCompat.NoActionBar">
         <!-- Text color -->
         <item name="android:editTextColor">@color/black</item>
@@ -30,6 +31,7 @@
         <item name="android:textColorHint">@color/white</item>
         <item name="android:borderlessButtonStyle">@color/grey</item>
     </style>
+
     <style name="toolbarMenuTheme" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
         <item name="android:textColor">@color/black</item>
         <item name="android:textSize">@dimen/dimen_20</item>

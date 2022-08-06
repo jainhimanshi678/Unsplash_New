@@ -91,7 +91,8 @@ class PhotoDialogFragment : DialogFragment() {
     private fun setupView() {
         Glide.with(requireContext()).load(photo?.urls?.regular).into(binding.ivLarge)
         binding.tvLikes.text = photo?.likes.toString() + resources.getString(R.string.likes)
-        Glide.with(requireContext()).load(photo?.user?.profile_image?.small).placeholder(R.drawable.ic_baseline_person_24).into(binding.ivProfile)
+        Glide.with(requireContext()).load(photo?.user?.profile_image?.small)
+            .placeholder(R.drawable.ic_baseline_person_24).into(binding.ivProfile)
         binding.tvUserName.text = photo?.user?.bio
         binding.tvProfile.text = photo?.user?.name
     }
